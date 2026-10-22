@@ -3,12 +3,12 @@ plugins {
 	id 'maven-publish'
 }
 
-repositories {
-	// Add repositories to retrieve artifacts from in here.
-	// You should only use this when depending on other mods because
-	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
-	// for more information about repositories.
+configurations {
+	transitiveInclude {
+		exclude group: "com.mojang"
+		exclude group: "net.minecraft"
+		exclude group: "net.fabricmc"
+	}
 }
 
 dependencies {
@@ -19,6 +19,23 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+
+	// Discord bot for receiving Discord messages
+	implementation transitiveInclude("net.dv8tion:JDA:6.7.0") {
+		exclude module: "opus-java"
+		exclude module: "tink"
+	}
+
+	// Discord webhook library for sending Discord messages
+	implementation transitiveInclude("club.minnced:discord-webhooks:0.8.4")
+}
+
+afterEvaluate {
+	dependencies {
+		configurations.transitiveInclude.resolvedConfiguration.resolvedArtifacts.each {
+			include(it.id.componentIdentifier.displayName)
+		}
+	}
 }
 
 processResources {
