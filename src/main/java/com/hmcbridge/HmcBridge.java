@@ -20,10 +20,14 @@ public class HmcBridge implements ModInitializer {
 		System.getenv("WEBHOOK_TOKEN")
 	);
 
+	private static final DiscordReceiver RECEIVER = new DiscordReceiver(
+		System.getenv("CHANNEL_ID"),
+		System.getenv("BOT_TOKEN")
+	);
+
 	@Override
 	public void onInitialize() {
 		ServerLifecycleEvents.SERVER_STARTED.register(HmcBridge::onServerStarted);
-
 		Runtime.getRuntime().addShutdownHook(new Thread(HmcBridge::onServerStopped));
 	}
 
@@ -37,6 +41,7 @@ public class HmcBridge implements ModInitializer {
 
 	private static void onServerStarted(MinecraftServer server) {
 		SENDER.sendServerMessage("\u2705  Server started", null);
+		RECEIVER.setPlayerManager(server.getPlayerManager());
 	}
 
 	private static void onServerStopped() {

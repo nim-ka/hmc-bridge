@@ -21,6 +21,11 @@ public class ChatMixin {
 	private void onChatMessage(Text message, MessageType type, UUID sender, CallbackInfo ci) {
 		PlayerManager self = (PlayerManager) (Object) this;
 
+		// i think this only happens from our own DiscordReceiver-sent chat messages?
+		if (!(message instanceof TranslatableText)) {
+			return;
+		}
+
 		TranslatableText content = (TranslatableText) message;
 		String key = content.getKey();
 		Object[] args = content.getArgs();
