@@ -17,16 +17,16 @@ public class DiscordSender {
 		client = WebhookClient.withUrl("https://discord.com/api/webhooks/" + webhookId + "/" + webhookToken);
 	}
 
-	public void sendChatMessage(String text, String username) {
-		HmcBridge.log("Sending Discord message: \"" + text + (username != null ? "\" (username: " + username + ")" : "\""));
+	public void sendRegularMessage(String text, String username) {
+		HmcBridge.log("Sending Discord message (regular): \"" + text + (username != null ? "\" (username: " + username + ")" : "\""));
 
 		client.send(getMessageBuilder(username)
 			.setContent(MarkdownSanitizer.escape(text))
 			.build());
 	}
 
-	public void sendServerMessage(String text, String username) {
-		HmcBridge.log("Sending Discord message: \"" + text + (username != null ? "\" (username: " + username + ")" : "\""));
+	public void sendEmbedMessage(String text, String username) {
+		HmcBridge.log("Sending Discord message (embed): \"" + text + (username != null ? "\" (username: " + username + ")" : "\""));
 
 		WebhookEmbedBuilder embedBuilder = new WebhookEmbedBuilder();
 		if (username != null) {

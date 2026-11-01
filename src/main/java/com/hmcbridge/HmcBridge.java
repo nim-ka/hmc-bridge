@@ -40,11 +40,11 @@ public class HmcBridge implements ModInitializer {
 	}
 
 	private static void onServerStarted(MinecraftServer server) {
-		SENDER.sendServerMessage("\u2705  Server started", null);
+		SENDER.sendEmbedMessage("\u2705  Server started", null);
 		RECEIVER.setPlayerManager(server.getPlayerManager());
 	}
 
 	private static void onServerStopped() {
-		SENDER.sendServerMessage("\uD83D\uDED1  Server stopped", null);
+		SENDER.sendEmbedMessage("\uD83D\uDED1  Server stopped", null);
 	}
 }
