@@ -21,6 +21,7 @@ public class HmcBridge implements ModInitializer {
 	);
 
 	private static final DiscordReceiver RECEIVER = new DiscordReceiver(
+		System.getenv("WEBHOOK_ID"),
 		System.getenv("CHANNEL_ID"),
 		System.getenv("BOT_TOKEN")
 	);
@@ -36,7 +37,7 @@ public class HmcBridge implements ModInitializer {
 	}
 
 	public static void log(Object message) {
-		LOGGER.info("[hmc-bridge] " + message.toString());
+		LOGGER.info("[hmc-bridge] " + message);
 	}
 
 	private static void onServerStarted(MinecraftServer server) {
